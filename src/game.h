@@ -2,10 +2,12 @@
 #define GAME_H
 
 #include <random>
+#include <memory>
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+#include "game_score.h"
 
 class Game {
  public:
@@ -26,12 +28,10 @@ class Game {
   std::uniform_int_distribution<int> random_w;
   std::uniform_int_distribution<int> random_h;
 
-  int best_score;
-  int score{0};
-  int eaten_food{0};
+  std::shared_ptr<GameScore> game_score;
+
   int bonus_time{-6};
   int time{0};
-  bool bonus_Active{false};
 
   void PlaceFood(bool bonus = false);
   void Update();

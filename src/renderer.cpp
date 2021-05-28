@@ -43,32 +43,32 @@ Renderer::~Renderer() {
 }
 
 void Renderer::Render(Snake const &snake, SDL_Point const &food,
-                      SDL_Point const &food_bonus, bool bonus_active,
-                      int bonus_time, int eaten_food, int score,
-                      int best_score) {
+                      SDL_Point const &food_bonus,
+                      const std::shared_ptr<GameScore> &game_score,
+                      int bonus_time) {
   SDL_Rect block;
   block.w = pixel_width;
   block.h = pixel_height;
 
-  int filled = grid_width * (20 * eaten_food) / 100;
+  int filled = grid_width * (20 * game_score->GetEatenFood()) / 100;
 
   ClearScreen();
 
   RenderFood(block, food);
 
-  if (bonus_active) {
-    RenderFood(block, food_bonus, bonus_active);
+  if (game_score->IsBonusActive()) {
+    RenderFood(block, food_bonus, game_score->IsBonusActive());
     filled = grid_width * (20 * (5 - bonus_time)) / 100;
   }
 
-  RenderBonusBar(block, filled, bonus_active);
+  RenderBonusBar(block, filled, game_score->IsBonusActive());
 
   RenderSnake(block, snake);
 
   SDL_Event event;
   SDL_RenderFillRect(sdl_renderer, &block);
 
-  RenderScore(score, best_score);
+  RenderScore(game_score->GetScore(), game_score->GetBestScore());
   SDL_RenderPresent(sdl_renderer);
 
 }

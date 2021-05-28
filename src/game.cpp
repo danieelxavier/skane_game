@@ -4,7 +4,7 @@
 
 Game::Game(std::size_t grid_width, std::size_t grid_height, int best_score)
     : snake(grid_width, grid_height),
-      best_score(best_score),
+      game_score(std::make_shared<GameScore>(best_score, 0 , 0)),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
@@ -39,7 +39,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       controller.HandleInput(running, snake);
       Update();
 
-      renderer.Render(snake, food, food_bonus, bonus_Active, time - bonus_time, eaten_food, score, best_score);
+      renderer.Render(snake, food, food_bonus, game_score, time - bonus_time);
 
       frame_end = SDL_GetTicks();
 
@@ -50,15 +50,19 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
       time = frame_end/1000;
 
-      bonus_Active = (time - bonus_time >= 5) ? false : true;
+      if (time - bonus_time >= 5) {
+        game_score->FinishBonus();
+      } else {
+        game_score->StartBonus();
+      }
 
-      if (score >= best_score) {
-        best_score = score;
+      if (game_score->GetScore() >= game_score->GetBestScore()) {
+        game_score->UpdateBestScore();
       }
 
       // After every second, update the window title.
       if (frame_end - title_timestamp >= 1000) {
-        renderer.UpdateWindowTitle(score, frame_count, time);
+        renderer.UpdateWindowTitle(game_score->GetScore(), frame_count, time);
         frame_count = 0;
         title_timestamp = frame_end;
       }
@@ -117,15 +121,15 @@ void Game::Update() {
 
   // Check if there's food over here
   if (food.x == new_x && food.y == new_y) {
-    score++;
+    game_score->IncreaseScore(1);
 
-    if (!bonus_Active) {
-      eaten_food++;
+    if (!game_score->IsBonusActive()) {
+      game_score->IncreaseEatenFood();
     }
 
-    if (eaten_food == 5) {
+    if (game_score->GetEatenFood() == 5) {
       bonus_time = time;
-      eaten_food = 0;
+      game_score->ClearEatenFood();
       PlaceFood(true);
     } else {
       PlaceFood();
@@ -137,8 +141,8 @@ void Game::Update() {
   }
 
   // Check if there's food bonus over here
-  if (bonus_Active && food_bonus.x == new_x && food_bonus.y == new_y) {
-    score += (5 - (time - bonus_time)) * 5;
+  if (game_score->IsBonusActive() && food_bonus.x == new_x && food_bonus.y == new_y) {
+    game_score->IncreaseScore((5 - (time - bonus_time)) * 5);
     bonus_time = 0;
     // decrease speed.
     snake.speed -= 0.02;
@@ -146,14 +150,10 @@ void Game::Update() {
 }
 
 void Game::RestartGame(std::size_t grid_width, std::size_t grid_height) {
-  score = 0;
-  eaten_food = 0;
-  bonus_time = -6;
-  time = 0;
-  bonus_Active = false;
+  game_score = std::make_shared<GameScore>(game_score->GetBestScore(), 0, 0);
   snake = Snake(grid_width, grid_height);
 }
 
-int Game::GetScore() const { return score; }
-int Game::GetBestScore() const { return best_score; }
+int Game::GetScore() const { return game_score->GetScore(); }
+int Game::GetBestScore() const { return game_score->GetBestScore(); }
 int Game::GetSize() const { return snake.size; }
