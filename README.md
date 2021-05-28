@@ -16,6 +16,23 @@ In this project, I extended the Snake game in order to change the score system, 
   * The feed bonus score is dynamic. When the bonus food is activated, the bonus bar becomes a timer that counts down 5 seconds. For each second passed, the score for bonus food decreases.
   * 5 points are added for each remaining second of the bonus time. That is, if the bonus food is eaten with 4 seconds remaining, the player gains 20 points. In addition, when eating the bonus food, the speed of the snake is also reduced.
 
+## Which rubric points are addressed.
+* [Loops, Functions, I/O]
+* A variety of control structures are used in the project.
+  * game.cpp -> line 30, 137.
+* [Object Oriented Programming]
+* The project uses Object Oriented Programming techniques
+  * game_score.cpp/game_score.h -> entire files.
+* Classes use appropriate access specifiers for class members.
+  * game_score.h -> lines 5, 24.
+* [Memory Management]
+* The project makes use of references in function declarations.
+  * renderer.cpp -> lines 45,69.
+* The project uses smart pointers instead of raw pointers.
+  * game.h -> lines 31.
+  * game.cpp -> lines 7, 153.
+  * renderer.h -> line 17
+
 ## Dependencies for Running Locally
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
