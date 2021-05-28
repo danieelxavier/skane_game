@@ -6,7 +6,7 @@ This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree P
 
 The Capstone Project gives you a chance to integrate what you've learned throughout this program. This project will become an important part of your portfolio to share with current and future colleagues and employers.
 
-In this project, you can build your own C++ application or extend this Snake game, following the principles you have learned throughout this Nanodegree Program. This project will demonstrate that you can independently create applications using a wide range of C++ features.
+In this project, I extended the Snake game in order to change the score system, insert bonus controlled by a bonus bar, storage the best score, render a panel to show scores and draw images to beginning and to game over.
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
@@ -17,7 +17,9 @@ In this project, you can build your own C++ application or extend this Snake gam
   * Windows: [Click here for installation instructions](http://gnuwin32.sourceforge.net/packages/make.htm)
 * SDL2 >= 2.0
   * All installation instructions can be found [here](https://wiki.libsdl.org/Installation)
-  >Note that for Linux, an `apt` or `apt-get` installation is preferred to building from source. 
+  >Note that for Linux, an `apt` or `apt-get` installation is preferred to building from source.
+* SDL2_image >= 2.0
+  >Note that for Linux, sudo apt-get install libsdl2-image-dev , and libsdl2-image-2.0-0
 * gcc/g++ >= 5.4
   * Linux: gcc / g++ is installed by default on most Linux distros
   * Mac: same deal as make - [install Xcode command line tools](https://developer.apple.com/xcode/features/)
