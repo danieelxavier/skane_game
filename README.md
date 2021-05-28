@@ -8,6 +8,14 @@ The Capstone Project gives you a chance to integrate what you've learned through
 
 In this project, I extended the Snake game in order to change the score system, insert bonus controlled by a bonus bar, storage the best score, render a panel to show scores and draw images to beginning and to game over.
 
+## Score system
+  * The snake starts with size 3
+  * Each standard food gives one point and increases the snake size and speed
+  * For each standard food eaten, the bonus bar is increased
+  * The bonus bar fills up after eating 5 standard foods. When this occurs, a bonus food appears
+  * The feed bonus score is dynamic. When the bonus food is activated, the bonus bar becomes a timer that counts down 5 seconds. For each second passed, the score for bonus food decreases.
+  * 5 points are added for each remaining second of the bonus time. That is, if the bonus food is eaten with 4 seconds remaining, the player gains 20 points. In addition, when eating the bonus food, the speed of the snake is also reduced.
+
 ## Dependencies for Running Locally
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
